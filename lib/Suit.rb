@@ -6,10 +6,10 @@ module Suit
   DIAMONDS = 2
   CLUBS    = 3
 
-  SPADES_SYM   = '♠'
-  HEARTS_SYM   = '♥'
-  DIAMONDS_SYM = '♦'
-  CLUBS_SYM    = '♣'
+  SPADE   = '♠'
+  HEART   = '♥'
+  DIAMOND = '♦'
+  CLUB    = '♣'
 
   SUITS    = [SPADES, HEARTS, DIAMONDS, CLUBS]
 
