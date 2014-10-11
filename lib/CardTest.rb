@@ -3,7 +3,7 @@ require 'Card'
 class CardTest < RubyUnit::TestCase
   def createValidCardTest suit, value
     card = Card.new suit, value
-    assertInstance Card, card, "Card must be instance of Card"
+    assertInstanceOf Card, card, "Card must be instance of Card"
   end
   
   def createInvalidCardTest suit, value, message
