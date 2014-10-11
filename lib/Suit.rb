@@ -1,6 +1,4 @@
 module Suit
-  public
-
   SPADES   = 0
   HEARTS   = 1
   DIAMONDS = 2
