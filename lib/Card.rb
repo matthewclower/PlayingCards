@@ -1,11 +1,10 @@
 class Card
-  attr_accessor :suit, :value
+  public
+  attr_reader :suit, :value
   
-  private
   MIN_VALUE = 1  # Ace/1
   MAX_VALUE = 13 # King
 
-  public
   VALUES    = MIN_VALUE..MAX_VALUE
 
   private

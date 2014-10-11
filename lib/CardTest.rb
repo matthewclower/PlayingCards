@@ -1,6 +1,10 @@
 require 'Card'
 
 class CardTest < RubyUnit::TestCase
+  def constantTest konstant, value
+    assertConst value, Card, konstant, "Card constant #{konstant} is not the right value!"
+  end
+
   def createValidCardTest suit, value
     card = Card.new suit, value
     assertInstanceOf Card, card, "Card must be instance of Card"
@@ -8,7 +12,7 @@ class CardTest < RubyUnit::TestCase
   
   def createInvalidCardTest suit, value, message
     assertRaiseExpected ArgumentError, message, 'Should not be able to create Card with invalid suit or value' do
-      card = Card.new(suit, value)
+      card = Card.new suit, value
     end
   end
 
@@ -38,7 +42,7 @@ class CardTest < RubyUnit::TestCase
 
   def canBeStrTest
     assertNothingRaised "Should be able to use a Card as a String" do
-      card = Card.new(Suit::HEARTS, 1)
+      card = Card.new Suit::HEARTS, 1
       s    = 'string' + card
     end
   end
@@ -46,6 +50,14 @@ end
 
 # Extend the class to add data providing functions
 class CardTest
+  def constantData
+    [
+      ['MIN_VALUE',     1],
+      ['MAX_VALUE',    13],
+      [   'VALUES', 1..13],
+    ]
+  end
+
   def createValidCardData
     cards = []
 
