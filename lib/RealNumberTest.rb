@@ -3,7 +3,25 @@ require_relative 'RealNumber'
 require 'RubyUnit'
 
 class RealNumberTest < RubyUnit::TestCase
-  public
+  def positiveTest value
+    assert value.positive?, "#{value.class}:(#{value}) should be positive!"
+  end
+
+  def notPositiveTest value
+    assertNot value.positive?, "#{value.class}:(#{value}) should not be positive!"
+  end
+
+  def negativeTest value
+    assert value.negative?, "#{value.class}:(#{value}) should be negative!"
+  end
+
+  def notNegativeTest value
+    assertNot value.negative?, "#{value.class}:(#{value}) should not be negative!"
+  end
+end
+
+# Extend the class to add data providing functions
+class RealNumberTest
   def positiveData
     [
       [           Integer(1),],
@@ -48,21 +66,5 @@ class RealNumberTest < RubyUnit::TestCase
 
   def notNegativeData
     zeroData | positiveData
-  end
-
-  def positiveTest value
-    assert value.positive?, "#{value.class}:(#{value}) should be positive!"
-  end
-
-  def notPositiveTest value
-    assertNot value.positive?, "#{value.class}:(#{value}) should not be positive!"
-  end
-
-  def negativeTest value
-    assert value.negative?, "#{value.class}:(#{value}) should be negative!"
-  end
-
-  def notNegativeTest value
-    assertNot value.negative?, "#{value.class}:(#{value}) should not be negative!"
   end
 end

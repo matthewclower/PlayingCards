@@ -1,6 +1,17 @@
 require 'Suit'
 
 class SuitTest < RubyUnit::TestCase
+  def validSuitsTest suit
+    assert Suit::valid?(suit), "#{suit} should be a valid Suit"
+  end
+  
+  def invalidSuitsTest suit
+    assertNot Suit::valid?(suit), "#{suit} should not be a valid Suit"
+  end
+end
+
+# Extend the class to add data providing functions
+class SuitTest
   def validSuitsData
     [
       [  Suit::SPADES],
@@ -17,13 +28,5 @@ class SuitTest < RubyUnit::TestCase
       [  4242],
       ['text'],
     ]
-  end
-
-  def validSuitsTest suit
-    assert Suit::valid?(suit), "#{suit} should be a valid Suit"
-  end
-  
-  def invalidSuitsTest suit
-    assertNot Suit::valid?(suit), "#{suit} should not be a valid Suit"
   end
 end
