@@ -130,12 +130,12 @@ class CardTest
 
   def to_sData
     [
-      [   Card.new(Suit::HEARTS, 1),   "A#{Suit::HEART}"],
-      [    Card.new(Suit::CLUBS, 2),    "2#{Suit::CLUB}"],
-      [  Card.new(Suit::SPADES, 10),  "10#{Suit::SPADE}"],
-      [Card.new(Suit::DIAMONDS, 11), "J#{Suit::DIAMOND}"],
-      [  Card.new(Suit::HEARTS, 12),   "Q#{Suit::HEART}"],
-      [   Card.new(Suit::CLUBS, 13),    "K#{Suit::CLUB}"],
+      [   Card.new(Suit::HEARTS, 1),  'A♥'],
+      [    Card.new(Suit::CLUBS, 2),  '2♣'],
+      [  Card.new(Suit::SPADES, 10), '10♠'],
+      [Card.new(Suit::DIAMONDS, 11),  'J♦'],
+      [  Card.new(Suit::HEARTS, 12),  'Q♥'],
+      [   Card.new(Suit::CLUBS, 13),  'K♣'],
     ]
   end
 
