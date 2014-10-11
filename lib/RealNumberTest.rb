@@ -1,7 +1,6 @@
-# Test for RealNumber mixin
 require_relative 'RealNumber'
-require 'RubyUnit'
 
+# Test for RealNumber mixin
 class RealNumberTest < RubyUnit::TestCase
   def positiveTest value
     assert value.positive?, "#{value.class}:(#{value}) should be positive!"
@@ -61,10 +60,10 @@ class RealNumberTest
   end
 
   def notPositiveData
-    zeroData | negativeData
+    zeroData + negativeData
   end
 
   def notNegativeData
-    zeroData | positiveData
+    zeroData + positiveData
   end
 end
