@@ -1,11 +1,16 @@
 class Card
+  # include Comparable for <=> operator-based comparisons
+  include Comparable
+
   public
   attr_reader :suit, :value
   
-  MIN_VALUE = 1  # Ace/1
-  MAX_VALUE = 13 # King
+  ACE       = 1
+  JACK      = 11
+  QUEEN     = 12
+  KING      = 13
 
-  VALUES    = MIN_VALUE..MAX_VALUE
+  VALUES    = ACE..KING
 
   private
   @suit     = nil
@@ -20,21 +25,29 @@ class Card
   end
   
   def face_card?
-    @value >= 11
+    @value >= JACK
   end
 
   def ace?
-    @value == 1
+    @value == ACE
+  end
+
+  def <=> other
+    raise ArgumentError, "Cannot perform comparison with #{other.class}" unless other.is_a? Card
+
+    result = self.value <=> other.value
+    return result unless result.zero?
+    return self.suit <=> other.suit
   end
 
   # string methods
   def to_s
     value = @value
     case
-      when @value == 1  then value = 'A'
-      when @value == 11 then value = 'J'
-      when @value == 12 then value = 'Q'
-      when @value == 13 then value = 'K'
+      when @value == ACE   then value = 'A'
+      when @value == JACK  then value = 'J'
+      when @value == QUEEN then value = 'Q'
+      when @value == KING  then value = 'K'
     end
     case @suit
       when Suit::SPADES   then suit = Suit::SPADE

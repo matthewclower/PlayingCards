@@ -32,6 +32,50 @@ class CardTest < RubyUnit::TestCase
     assertNot card.ace?, "#{card} should not be an ace"
   end
 
+  def spaceshipTest card1, card2, expected
+    assertEqual expected, (card1 <=> card2), 'Spaceship comparison failed!'
+  end
+
+  def lessThanTest card1, card2
+    assert (card1 < card2), 'Less than comparison incorrect!'
+  end
+
+  def notLessThanTest card1, card2
+    assertNot (card1 < card2), 'Less than comparison incorrect!'
+  end
+
+  def lessThanOrEqualToTest card1, card2
+    assert (card1 <= card2), 'Less than comparison incorrect!'
+  end
+
+  def notLessThanOrEqualToTest card1, card2
+    assertNot (card1 <= card2), 'Less than comparison incorrect!'
+  end
+
+  def equalTest card1, card2
+    assert (card1 == card2), 'Equality comparison incorrect!'
+  end
+
+  def notEqualTest card1, card2
+    assertNot (card1 != card2), 'Equality comparison incorrect!'
+  end
+
+  def greaterThanTest card1, card2
+    assert (card1 > card2), 'Greater than comparison incorrect!'
+  end
+
+  def notGreaterThanTest card1, card2
+    assertNot (card1 > card2), 'Greater than comparison incorrect!'
+  end
+
+  def greaterThanOrEqualToTest card1, card2
+    assert (card1 >= card2), 'Greater than comparison incorrect!'
+  end
+
+  def notGreaterThanOrEqualToTest card1, card2
+    assertNot (card1 >= card2), 'Greater than comparison incorrect!'
+  end
+
   def to_sTest card, expected
     assertEqual expected, card.to_s, "#{card} should be expressed as #{expected}"
   end
@@ -42,7 +86,7 @@ class CardTest < RubyUnit::TestCase
 
   def canBeStrTest
     assertNothingRaised 'Should be able to use a Card as a String' do
-      card = Card.new Suit::HEARTS, 1
+      card = Card.new Suit::HEARTS, Card::ACE
       'string' + card
     end
   end
@@ -52,9 +96,11 @@ end
 class CardTest
   def constantData
     [
-      ['MIN_VALUE',     1],
-      ['MAX_VALUE',    13],
-      [   'VALUES', 1..13],
+      [   'ACE',     1],
+      [  'JACK',    11],
+      [ 'QUEEN',    12],
+      [  'KING',    13],
+      ['VALUES', 1..13],
     ]
   end
 
@@ -62,7 +108,7 @@ class CardTest
     cards = []
 
     Suit::SUITS.each do |suit|
-      (1..13).each do |value|
+      (Card::ACE..Card::KING).each do |value|
         cards << [suit, value]
       end
     end
@@ -72,10 +118,10 @@ class CardTest
 
   def createInvalidCardData
     [
-      [           nil,               1,  /^Invalid Suit/],
+      [           nil,       Card::ACE,  /^Invalid Suit/],
       [         false,               5,  /^Invalid Suit/],
       [          4242,              10,  /^Invalid Suit/],
-      [        'Suit',              13,  /^Invalid Suit/],
+      [        'Suit',      Card::KING,  /^Invalid Suit/],
       [          Card,               0,  /^Invalid Suit/],
       [  Suit::SPADES,            true, /^Invalid Value/],
       [  Suit::HEARTS, 'Ace of Spades', /^Invalid Value/],
@@ -88,7 +134,7 @@ class CardTest
     cards = []
 
     Suit::SUITS.each do |suit|
-      (11..13).each do |value|
+      (Card::JACK..Card::KING).each do |value|
         cards << [Card.new(suit, value)]
       end
     end
@@ -100,7 +146,7 @@ class CardTest
     cards = []
 
     Suit::SUITS.each do |suit|
-      (1..10).each do |value|
+      (Card::ACE...Card::JACK).each do |value|
         cards << [Card.new(suit, value)]
       end
     end
@@ -111,7 +157,7 @@ class CardTest
   def aceData
     cards = []
     Suit::SUITS.each do |suit|
-      cards << [Card.new(suit, 1)]
+      cards << [Card.new(suit, Card::ACE)]
     end
     cards
   end
@@ -120,7 +166,7 @@ class CardTest
     cards = []
 
     Suit::SUITS.each do |suit|
-      (2..13).each do |value|
+      (2..Card::KING).each do |value|
         cards << [Card.new(suit, value)]
       end
     end
@@ -128,10 +174,191 @@ class CardTest
     cards
   end
 
+  def spaceshipData
+    [
+      [   Card.new(Suit::CLUBS,  Card::ACE), Card.new(Suit::DIAMONDS,  Card::ACE), -1],
+      [Card.new(Suit::DIAMONDS,          5),   Card.new(Suit::HEARTS,          5), -1],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::SPADES, Card::JACK), -1],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          7), -1],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          8), -1],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9), -1],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK), -1],
+      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE),  0],
+      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5),  0],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK),  0],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2),  0],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3),  0],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4),  0],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5),  0],
+      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE),  1],
+      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5),  1],
+      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK),  1],
+      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2),  1],
+      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3),  1],
+      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4),  1],
+      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5),  1],
+    ]
+  end
+
+  def lessThanTest
+    [
+      [   Card.new(Suit::CLUBS,  Card::ACE), Card.new(Suit::DIAMONDS,  Card::ACE)],
+      [Card.new(Suit::DIAMONDS,          5),   Card.new(Suit::HEARTS,          5)],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::SPADES, Card::JACK)],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          7)],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          8)],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9)],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK)],
+    ]
+  end
+
+  def notLessThanTest
+    [
+      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5)],
+      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5)],
+    ]
+  end
+
+  def lessThanOrEqualToData
+    [
+      [   Card.new(Suit::CLUBS,  Card::ACE), Card.new(Suit::DIAMONDS,  Card::ACE)],
+      [Card.new(Suit::DIAMONDS,          5),   Card.new(Suit::HEARTS,          5)],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::SPADES, Card::JACK)],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          7)],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          8)],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9)],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK)],
+      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5)],
+    ]
+  end
+
+  def notLessThanOrEqualToData
+    [
+      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5)],
+    ]
+  end
+
+  def equalTest
+    [
+      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5)],
+    ]
+  end
+
+  def notEqualTest
+    [
+      [   Card.new(Suit::CLUBS,  Card::ACE), Card.new(Suit::DIAMONDS,  Card::ACE)],
+      [Card.new(Suit::DIAMONDS,          5),   Card.new(Suit::HEARTS,          5)],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::SPADES, Card::JACK)],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          7)],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          8)],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9)],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK)],
+      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5)],
+    ]
+  end
+
+  def greaterThanData
+    [
+      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5)],
+    ]
+  end
+
+  def notGreaterThanData
+    [
+      [   Card.new(Suit::CLUBS,  Card::ACE), Card.new(Suit::DIAMONDS,  Card::ACE)],
+      [Card.new(Suit::DIAMONDS,          5),   Card.new(Suit::HEARTS,          5)],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::SPADES, Card::JACK)],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          7)],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          8)],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9)],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK)],
+      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5)],
+    ]
+  end
+
+  def greaterThanOrEqualToData
+    [
+      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5)],
+      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5)],
+    ]
+  end
+
+  def notGreaterThanOrEqualToData
+    [
+      [   Card.new(Suit::CLUBS,  Card::ACE), Card.new(Suit::DIAMONDS,  Card::ACE)],
+      [Card.new(Suit::DIAMONDS,          5),   Card.new(Suit::HEARTS,          5)],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::SPADES, Card::JACK)],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          7)],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          8)],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9)],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK)],
+    ]
+  end
+
   def to_sData
     [
-      [   Card.new(Suit::HEARTS, 1),  'A♥'],
-      [    Card.new(Suit::CLUBS, 2),  '2♣'],
+      [  Card.new(Suit::HEARTS,  1),  'A♥'],
+      [   Card.new(Suit::CLUBS,  2),  '2♣'],
       [  Card.new(Suit::SPADES, 10), '10♠'],
       [Card.new(Suit::DIAMONDS, 11),  'J♦'],
       [  Card.new(Suit::HEARTS, 12),  'Q♥'],
