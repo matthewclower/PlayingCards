@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require_relative 'Bootstrap'
 
-require 'RubyUnit/RubyUnit'
+require 'RubyUnit'
 
 # PlayingCard tests
 require 'PlayingCardTestSet'
