@@ -212,7 +212,7 @@ class CardTest
     ]
   end
 
-  def lessThanTest
+  def lessThan
     [
       [   Card.new(Suit::CLUBS,  Card::ACE), Card.new(Suit::DIAMONDS,  Card::ACE)],
       [Card.new(Suit::DIAMONDS,          5),   Card.new(Suit::HEARTS,          5)],
@@ -222,149 +222,70 @@ class CardTest
       [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9)],
       [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK)],
     ]
+  end
+
+  def equalTo
+    [
+      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5)],
+    ]
+  end
+
+  def greaterThan
+    [
+      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
+      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5)],
+      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
+      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2)],
+      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3)],
+      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4)],
+      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5)],
+    ]
+  end
+
+  def lessThanTest
+    lessThan
   end
 
   def notLessThanTest
-    [
-      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
-      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5)],
-      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
-      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2)],
-      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3)],
-      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4)],
-      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5)],
-      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
-      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5)],
-      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
-      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2)],
-      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3)],
-      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4)],
-      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5)],
-    ]
+    equalTo + greaterThan
   end
 
   def lessThanOrEqualToData
-    [
-      [   Card.new(Suit::CLUBS,  Card::ACE), Card.new(Suit::DIAMONDS,  Card::ACE)],
-      [Card.new(Suit::DIAMONDS,          5),   Card.new(Suit::HEARTS,          5)],
-      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::SPADES, Card::JACK)],
-      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          7)],
-      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          8)],
-      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9)],
-      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK)],
-      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
-      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5)],
-      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
-      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2)],
-      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3)],
-      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4)],
-      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5)],
-    ]
+    lessThan + equalTo
   end
 
   def notLessThanOrEqualToData
-    [
-      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
-      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5)],
-      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
-      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2)],
-      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3)],
-      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4)],
-      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5)],
-    ]
+    greaterThan
   end
 
   def equalTest
-    [
-      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
-      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5)],
-      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
-      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2)],
-      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3)],
-      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4)],
-      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5)],
-    ]
+    equalTo
   end
 
   def notEqualTest
-    [
-      [   Card.new(Suit::CLUBS,  Card::ACE), Card.new(Suit::DIAMONDS,  Card::ACE)],
-      [Card.new(Suit::DIAMONDS,          5),   Card.new(Suit::HEARTS,          5)],
-      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::SPADES, Card::JACK)],
-      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          7)],
-      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          8)],
-      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9)],
-      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK)],
-      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
-      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5)],
-      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
-      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2)],
-      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3)],
-      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4)],
-      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5)],
-    ]
+    lessThan + greaterThan
   end
 
   def greaterThanData
-    [
-      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
-      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5)],
-      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
-      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2)],
-      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3)],
-      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4)],
-      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5)],
-    ]
+    greaterThan
   end
 
   def notGreaterThanData
-    [
-      [   Card.new(Suit::CLUBS,  Card::ACE), Card.new(Suit::DIAMONDS,  Card::ACE)],
-      [Card.new(Suit::DIAMONDS,          5),   Card.new(Suit::HEARTS,          5)],
-      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::SPADES, Card::JACK)],
-      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          7)],
-      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          8)],
-      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9)],
-      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK)],
-      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
-      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5)],
-      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
-      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2)],
-      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3)],
-      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4)],
-      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5)],
-    ]
+    lessThan + equalTo
   end
 
   def greaterThanOrEqualToData
-    [
-      [   Card.new(Suit::CLUBS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
-      [Card.new(Suit::DIAMONDS,          5), Card.new(Suit::DIAMONDS,          5)],
-      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
-      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          2)],
-      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          3)],
-      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          4)],
-      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS,          5)],
-      [Card.new(Suit::DIAMONDS,  Card::ACE),    Card.new(Suit::CLUBS,  Card::ACE)],
-      [  Card.new(Suit::HEARTS,          5), Card.new(Suit::DIAMONDS,          5)],
-      [  Card.new(Suit::SPADES, Card::JACK),   Card.new(Suit::HEARTS, Card::JACK)],
-      [  Card.new(Suit::SPADES,          7),   Card.new(Suit::SPADES,          2)],
-      [  Card.new(Suit::HEARTS,          8),   Card.new(Suit::HEARTS,          3)],
-      [Card.new(Suit::DIAMONDS,          9), Card.new(Suit::DIAMONDS,          4)],
-      [   Card.new(Suit::CLUBS, Card::JACK),    Card.new(Suit::CLUBS,          5)],
-    ]
+    equalTo + greaterThan
   end
 
   def notGreaterThanOrEqualToData
-    [
-      [   Card.new(Suit::CLUBS,  Card::ACE), Card.new(Suit::DIAMONDS,  Card::ACE)],
-      [Card.new(Suit::DIAMONDS,          5),   Card.new(Suit::HEARTS,          5)],
-      [  Card.new(Suit::HEARTS, Card::JACK),   Card.new(Suit::SPADES, Card::JACK)],
-      [  Card.new(Suit::SPADES,          2),   Card.new(Suit::SPADES,          7)],
-      [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          8)],
-      [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9)],
-      [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK)],
-    ]
+    lessThan
   end
 
   def arrayEqualData
