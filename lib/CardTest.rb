@@ -1,4 +1,4 @@
-require 'Card'
+require_relative 'Card'
 
 class CardTest < RubyUnit::TestCase
   def constantTest konstant, value
@@ -7,7 +7,7 @@ class CardTest < RubyUnit::TestCase
 
   def createValidCardTest suit, value
     card = Card.new suit, value
-    assertInstanceOf Card, card, "Card must be instance of Card"
+    assertInstanceOf Card, card, 'Card must be instance of Card'
   end
   
   def createInvalidCardTest suit, value, message
@@ -41,9 +41,9 @@ class CardTest < RubyUnit::TestCase
   end
 
   def canBeStrTest
-    assertNothingRaised "Should be able to use a Card as a String" do
+    assertNothingRaised 'Should be able to use a Card as a String' do
       card = Card.new Suit::HEARTS, 1
-      s    = 'string' + card
+      'string' + card
     end
   end
 end
