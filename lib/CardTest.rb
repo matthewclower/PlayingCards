@@ -84,6 +84,10 @@ class CardTest < RubyUnit::TestCase
     assertNotEqual cards1, cards2, 'Card arrays should not be equal!'
   end
 
+  def arraySortTest cards, sorted
+    assertEqual sorted, cards.sort, 'Sorted cards array incorrect!'
+  end
+
   def to_sTest card, expected
     assertEqual expected, card.to_s, "#{card} should be expressed as #{expected}"
   end
@@ -385,6 +389,23 @@ class CardTest
       [
         [Card.new(Suit::SPADES, Card::ACE), Card.new(Suit::HEARTS, 9), Card.new(Suit::CLUBS, Card::JACK)],
         [Card.new(Suit::SPADES,         8), Card.new( Suit::CLUBS, 6), Card.new(Suit::CLUBS, Card::JACK)],
+      ],
+    ]
+  end
+
+  def arraySortData
+    [
+      [
+        [Card.new(Suit::SPADES, Card::ACE)],
+        [Card.new(Suit::SPADES, Card::ACE)],
+      ],
+      [
+        [Card.new(Suit::SPADES, Card::JACK), Card.new(Suit::HEARTS,          9), Card.new( Suit::CLUBS, Card::JACK)],
+        [Card.new(Suit::HEARTS,          9), Card.new( Suit::CLUBS, Card::JACK), Card.new(Suit::SPADES, Card::JACK)],
+      ],
+      [
+        [Card.new(Suit::SPADES, Card::JACK), Card.new(Suit::HEARTS, 7), Card.new( Suit::CLUBS,  Card::ACE)],
+        [Card.new( Suit::CLUBS,  Card::ACE), Card.new(Suit::HEARTS, 7), Card.new(Suit::SPADES, Card::JACK)],
       ],
     ]
   end
