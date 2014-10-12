@@ -1,4 +1,4 @@
-require 'Suit'
+require_relative 'Suit'
 
 class SuitTest < RubyUnit::TestCase
   def constantTest konstant, value
