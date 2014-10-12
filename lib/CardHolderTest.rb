@@ -1,42 +1,43 @@
-require 'CardHolder'
+require_relative 'CardHolder'
 
 class CardHolderTest < RubyUnit::TestCase
-  # TODO update this with a fixture...
-  include CardHolder
+  def setup
+    @ch = CardHolderFixture.new
+  end
 
   def validCardsAssignTest cards
-    assertNothingRaised "Should be able to assign array of cards" do
-      self.cards = cards
+    assertNothingRaised 'Should be able to assign array of cards' do
+      @ch.send :cards=, cards
     end
   end
 
   def invalidCardsAssignTest cards, message
-    assertRaiseExpected ArgumentError, message, "Should not be able to assign invalid array of Cards" do
-      self.cards = cards
+    assertRaiseExpected ArgumentError, message, 'Should not be able to assign invalid array of Cards' do
+      @ch.send :cards=, cards
     end
   end
 
   def to_sTest cards, expected
-    self.cards = cards
-    assertEqual expected, to_s, "#{to_s} should be expressed as #{expected}"
+    @ch.send :cards=, cards
+    assertEqual expected, @ch.to_s, "#{@ch.to_s} should be expressed as #{expected}"
   end
   
   def to_strTest cards, expected  
-    self.cards = cards
-    assertEqual expected, to_s, "#{to_s} should be expressed as #{expected}"
+    @ch.send :cards=, cards
+    assertEqual expected, @ch.to_s, "#{@ch.to_s} should be expressed as #{expected}"
   end
 
   def canBeStrTest
-    assertNothingRaised "Should be able to use a CardHolder as a String" do
-      self.cards = [Card.new(Suit::HEARTS,1)]
-      s          = 'string' + self
+    assertNothingRaised 'Should be able to use a CardHolderFixture as a String' do
+      @ch.send :cards=, [Card.new(Suit::HEARTS,1)]
+      'string' + @ch
     end
   end
 
   def cloneCardsTest cards
-    self.cards = cards
+    @ch.send :cards=, cards
 
-    assertNotSame cards, @cards, "Cards should not be the original object"
+    assertNotSame cards, @ch.instance_variable_get('@cards'), 'Cards should not be the original object'
   end
 end
 
@@ -79,15 +80,15 @@ class CardHolderTest
     [
       [
         [Card.new(Suit::HEARTS,1)],
-        "A♥",
+        'A♥',
       ],
       [
         [Card.new(Suit::SPADES,1),Card.new(Suit::HEARTS,5),Card.new(Suit::DIAMONDS,9),Card.new(Suit::CLUBS,13)],
-        "A♠ 5♥ 9♦ K♣",
+        'A♠ 5♥ 9♦ K♣',
       ],
       [
         [Card.new(Suit::CLUBS,6),Card.new(Suit::CLUBS,7),Card.new(Suit::CLUBS,8),Card.new(Suit::CLUBS,9),Card.new(Suit::CLUBS,10)],
-        "6♣ 7♣ 8♣ 9♣ 10♣",
+        '6♣ 7♣ 8♣ 9♣ 10♣',
       ],
     ]
   end
@@ -100,4 +101,8 @@ class CardHolderTest
     validCardsAssignData
   end
 
+end
+
+class CardHolderFixture
+  include CardHolder
 end
