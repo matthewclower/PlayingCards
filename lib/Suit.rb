@@ -1,8 +1,8 @@
 module Suit
-  SPADES   = 0
-  HEARTS   = 1
-  DIAMONDS = 2
-  CLUBS    = 3
+  CLUBS    = 0
+  DIAMONDS = 1
+  HEARTS   = 2
+  SPADES   = 3
 
   SPADE   = '♠'
   HEART   = '♥'
