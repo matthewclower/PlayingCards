@@ -76,6 +76,14 @@ class CardTest < RubyUnit::TestCase
     assertNot (card1 >= card2), 'Greater than comparison incorrect!'
   end
 
+  def arrayEqualTest cards1, cards2
+    assertEqual cards1, cards2, 'Card arrays should be equal!'
+  end
+
+  def arrayNotEqualTest cards1, cards2
+    assertNotEqual cards1, cards2, 'Card arrays should not be equal!'
+  end
+
   def to_sTest card, expected
     assertEqual expected, card.to_s, "#{card} should be expressed as #{expected}"
   end
@@ -352,6 +360,32 @@ class CardTest
       [  Card.new(Suit::HEARTS,          3),   Card.new(Suit::HEARTS,          8)],
       [Card.new(Suit::DIAMONDS,          4), Card.new(Suit::DIAMONDS,          9)],
       [   Card.new(Suit::CLUBS,          5),    Card.new(Suit::CLUBS, Card::JACK)],
+    ]
+  end
+
+  def arrayEqualData
+    [
+      [
+        [Card.new(Suit::SPADES, Card::ACE)],
+        [Card.new(Suit::SPADES, Card::ACE)],
+      ],
+      [
+        [Card.new(Suit::SPADES, Card::ACE), Card.new(Suit::HEARTS, 9), Card.new(Suit::CLUBS, Card::JACK)],
+        [Card.new(Suit::SPADES, Card::ACE), Card.new(Suit::HEARTS, 9), Card.new(Suit::CLUBS, Card::JACK)],
+      ],
+    ]
+  end
+
+  def arrayNotEqualData
+    [
+      [
+        [Card.new(Suit::SPADES, Card::ACE)],
+        [Card.new(Suit::HEARTS, Card::ACE)],
+      ],
+      [
+        [Card.new(Suit::SPADES, Card::ACE), Card.new(Suit::HEARTS, 9), Card.new(Suit::CLUBS, Card::JACK)],
+        [Card.new(Suit::SPADES,         8), Card.new( Suit::CLUBS, 6), Card.new(Suit::CLUBS, Card::JACK)],
+      ],
     ]
   end
 
